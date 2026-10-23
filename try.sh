@@ -7,7 +7,7 @@ run() {
   "$@"
 }
 
-run docker compose down -v
+run docker compose down -v --remove-orphans
 run docker compose up -d --wait
 run docker compose pull cli
 
