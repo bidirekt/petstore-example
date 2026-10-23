@@ -1,0 +1,32 @@
+name: e2e
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: ./try.sh | tee try.out
+      - name: try.sh shows the break
+        run: |
+          grep -F 'petstore_api 2.0.0 cannot be deployed to production' try.out
+          grep -F 'Pet.status' try.out
+      - name: the printed commands deploy the fix
+        run: |
+          cp deployed/petstore_api.yaml contracts/petstore_api.yaml
+          grep '^  \./bidirekt ' try.out > fix.sh
+          sh -ex fix.sh | tee fix.out
+          grep -F 'petstore_api 3.0.0 can be deployed to production' fix.out
+      - if: failure()
+        run: docker compose logs broker

@@ -3,7 +3,6 @@ name: petstore-example
 services:
   postgres:
     image: postgres:17-alpine
-    attach: false
     environment:
       POSTGRES_USER: bidirekt
       POSTGRES_PASSWORD: bidirekt
@@ -18,7 +17,6 @@ services:
 
   broker:
     image: ghcr.io/bidirekt/broker:0.1.0-rc.3
-    attach: false
     environment:
       BIDIREKT_DATABASE_URL: postgres://bidirekt:bidirekt@postgres:5432/bidirekt?sslmode=disable
     depends_on:
@@ -30,9 +28,9 @@ services:
       timeout: 3s
       retries: 15
 
-  seed:
+  cli:
     image: ghcr.io/bidirekt/cli:0.1.0-rc.2
-    entrypoint: ["sh", "/example/scripts/seed.sh"]
+    profiles: [cli]
     working_dir: /example
     environment:
       BIDIREKT_BROKER_URL: http://broker:8080
@@ -41,18 +39,6 @@ services:
     depends_on:
       broker:
         condition: service_healthy
-
-  check:
-    image: ghcr.io/bidirekt/cli:0.1.0-rc.2
-    entrypoint: ["sh", "/example/scripts/check.sh"]
-    working_dir: /example
-    environment:
-      BIDIREKT_BROKER_URL: http://broker:8080
-    volumes:
-      - .:/example:ro
-    depends_on:
-      seed:
-        condition: service_completed_successfully
 
 volumes:
   postgres-data:
