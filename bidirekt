@@ -1,0 +1,5 @@
+#!/bin/sh
+cd "$(dirname "$0")"
+# docker compose run reads all of a stdin that is not a terminal, such as the rest of a script piped to sh.
+[ -t 0 ] || exec </dev/null
+exec docker compose --progress quiet run --rm cli "$@"
