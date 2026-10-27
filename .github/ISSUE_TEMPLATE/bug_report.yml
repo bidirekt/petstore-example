@@ -1,0 +1,51 @@
+name: Bug report
+description: Report something that does not work as expected.
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command
+      description: The command you ran, such as `./demo.sh` or `curl -sL bidirekt.com/demo | sh`.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Output
+      description: What the command printed.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: docker-compose-version
+    attributes:
+      label: Docker Compose version
+      description: The output of `docker compose version`.
+    validations:
+      required: true
+  - type: input
+    id: operating-system
+    attributes:
+      label: Operating system
+      description: The operating system and its version, such as macOS 15 or Ubuntu 24.04.
+    validations:
+      required: true
+  - type: textarea
+    id: broker-logs
+    attributes:
+      label: Broker logs
+      description: The output of `docker compose logs broker`, if the demo stopped before it finished.
+      render: text
