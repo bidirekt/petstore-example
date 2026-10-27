@@ -1,5 +1,7 @@
 # petstore-example
 
+[![e2e](https://img.shields.io/github/actions/workflow/status/bidirekt/petstore-example/e2e.yml?branch=main&label=e2e)](https://github.com/bidirekt/petstore-example/actions/workflows/e2e.yml) [![License](https://img.shields.io/github/license/bidirekt/petstore-example)](LICENSE)
+
 A Bidirekt broker with two participants deployed to `production`: `petstore_api`, the provider, and `petstore_web`, its consumer, which reads `Pet.status`. `contracts/petstore_api.yaml` is a proposed change to `petstore_api` that drops `status`, and the check shows that it would break `petstore_web`. It only needs Docker.
 
 ```
@@ -51,3 +53,16 @@ When `demo.sh` ends, `contracts/petstore_api.yaml` goes back to the proposed cha
 | `compose.yaml` | Postgres, the broker and the `bidirekt` CLI image |
 
 The walkthrough is at https://bidirekt.com/docs/start/demo.
+
+## Development
+
+CI runs `.github/workflows/e2e.yml` on every pull request and on every push to `main`. It runs `demo.sh` and fails unless the output shows `petstore_api 2.0.0 cannot be deployed to production` (naming `Pet.status`), then `petstore_api 3.0.0 can be deployed to production`, and `contracts/` is left unchanged. To run the check locally:
+
+```
+./demo.sh
+git diff --exit-code contracts/
+```
+
+## License
+
+[Apache License 2.0](LICENSE)
