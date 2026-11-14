@@ -16,9 +16,11 @@ services:
       retries: 15
 
   broker:
-    image: ghcr.io/bidirekt/broker:0.1.0
+    image: ghcr.io/bidirekt/broker:0.2.0
     environment:
       BIDIREKT_DATABASE_URL: postgres://bidirekt:bidirekt@postgres:5432/bidirekt?sslmode=disable
+      BIDIREKT_PUBLIC_URL: http://localhost:8080
+      BIDIREKT_TOKEN_SIGNING_KEY: cGV0c3RvcmUtZGVtby1vbmx5LXNpZ25pbmcta2V5MzI=
     depends_on:
       postgres:
         condition: service_healthy
@@ -28,12 +30,21 @@ services:
       timeout: 3s
       retries: 15
 
+  setup:
+    image: curlimages/curl:8.23.0
+    profiles: [setup]
+    network_mode: service:broker
+    entrypoint: [sh, /setup.sh]
+    volumes:
+      - ./setup.sh:/setup.sh:ro
+
   cli:
-    image: ghcr.io/bidirekt/cli:0.1.0
+    image: ghcr.io/bidirekt/cli:0.2.0
     profiles: [cli]
     working_dir: /example
     environment:
       BIDIREKT_BROKER_URL: http://broker:8080
+      BIDIREKT_API_KEY:
     volumes:
       - .:/example:ro
     depends_on:
