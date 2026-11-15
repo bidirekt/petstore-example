@@ -58,7 +58,12 @@ edit_contract() {
 step 1 'Start the broker'
 type_run docker compose down -v --remove-orphans
 type_run docker compose up -d --wait
-type_run docker compose pull cli
+type_run docker compose pull cli setup
+type_command 'export BIDIREKT_API_KEY=$(docker compose run --rm setup)'
+# docker compose run reads all of a stdin that is not a terminal, such as a script piped to sh.
+BIDIREKT_API_KEY=$(docker compose --progress quiet run --rm setup </dev/null)
+export BIDIREKT_API_KEY
+printf 'Created an admin and an API key, which every ./bidirekt command sends.\n'
 
 step 2 'Set up what is in production'
 # Setting up is not the story: type it fast.

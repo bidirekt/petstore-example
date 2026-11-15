@@ -12,7 +12,7 @@ Without cloning this repo, `curl -sL bidirekt.com/demo | sh` downloads it and ru
 
 `demo.sh` runs by itself in six steps. Each starts with a title, and each command is typed before it runs:
 
-1. **Start the broker**: removes what an earlier run left, starts Postgres and the broker, and pulls the CLI image.
+1. **Start the broker**: removes what an earlier run left, starts Postgres and the broker, pulls the CLI and curl images, and with `setup.sh` creates an admin and an API key, which every `./bidirekt` command sends.
 2. **Set up what is in production**: creates `production`, `petstore_api` and `petstore_web`, publishes `1.0.0` of each from `deployed/` and records both as deployed to `production`.
 3. **Publish the proposed change**: publishes `contracts/petstore_api.yaml` as `petstore_api 2.0.0`.
 4. **Check it**: `can-i-deploy` says `2.0.0` cannot be deployed.
@@ -24,6 +24,7 @@ In step 4, `can-i-deploy` answers:
 ```
 $ ./bidirekt can-i-deploy petstore_api --version 2.0.0 --environment production
 Broker: http://broker:8080 (from BIDIREKT_BROKER_URL)
+warning: the API key travels unencrypted to http://broker:8080
 petstore_api 2.0.0 cannot be deployed to production
 
 petstore_web (1.0.0, deployed):
@@ -38,6 +39,7 @@ In step 5, the fixed contract passes:
 ```
 $ ./bidirekt can-i-deploy petstore_api --version 3.0.0 --environment production
 Broker: http://broker:8080 (from BIDIREKT_BROKER_URL)
+warning: the API key travels unencrypted to http://broker:8080
 petstore_api 3.0.0 can be deployed to production
 compared with: petstore_web
 ```
@@ -50,7 +52,8 @@ When `demo.sh` ends, `contracts/petstore_api.yaml` goes back to the proposed cha
 | `deployed/` | the contracts of `petstore_api 1.0.0` and `petstore_web 1.0.0`, deployed to `production` by `demo.sh` |
 | `contracts/petstore_api.yaml` | the proposed change to `petstore_api`, published as `2.0.0` by `demo.sh` |
 | `bidirekt` | runs the `bidirekt` CLI in a container next to the broker |
-| `compose.yaml` | Postgres, the broker and the `bidirekt` CLI image |
+| `setup.sh` | creates an admin and an API key in a container next to the broker, run by `demo.sh` |
+| `compose.yaml` | Postgres, the broker, the `bidirekt` CLI image and the curl image `setup.sh` runs in |
 
 The walkthrough is at https://bidirekt.com/docs/start/demo.
 
