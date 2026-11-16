@@ -17,6 +17,13 @@ Fork the repository, create a branch, and open a pull request against `main`. CI
 git diff --exit-code contracts/
 ```
 
+CI also runs `petstore_ts.sh` in its own job, `petstore_ts`: it fails unless `petstore_ts/contracts/generated.yaml` matches what `generate` writes from the code, in the `node` service of `compose.yaml`, and `bidirekt validate` accepts it. After changing `petstore_ts/`, write the contract again and run the same check:
+
+```
+docker compose run --rm node npx @bidirekt/typescript-sdk-cli generate
+./petstore_ts.sh
+```
+
 ## Security
 
 Report a vulnerability as [SECURITY.md](SECURITY.md) describes, never in an issue.

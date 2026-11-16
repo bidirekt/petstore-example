@@ -51,5 +51,17 @@ services:
       broker:
         condition: service_healthy
 
+  node:
+    image: node:24-alpine
+    profiles: [node]
+    working_dir: /petstore_ts
+    environment:
+      NPM_CONFIG_UPDATE_NOTIFIER: "false"
+    entrypoint: [sh, -c, 'npm ci --no-audit --no-fund >&2 && exec "$$@"', --]
+    volumes:
+      - ./petstore_ts:/petstore_ts
+      # The container's own node_modules, so it never replaces one installed on the machine.
+      - /petstore_ts/node_modules
+
 volumes:
   postgres-data:

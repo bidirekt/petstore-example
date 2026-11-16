@@ -2,7 +2,7 @@
 
 [![e2e](https://img.shields.io/github/actions/workflow/status/bidirekt/petstore-example/e2e.yml?branch=main&label=e2e)](https://github.com/bidirekt/petstore-example/actions/workflows/e2e.yml) [![License](https://img.shields.io/github/license/bidirekt/petstore-example)](LICENSE)
 
-A Bidirekt broker with two participants deployed to `production`: `petstore_api`, the provider, and `petstore_web`, its consumer, which reads `Pet.status`. `contracts/petstore_api.yaml` is a proposed change to `petstore_api` that drops `status`, and the check shows that it would break `petstore_web`. It only needs Docker.
+A Bidirekt broker with two participants deployed to `production`: `petstore_api`, the provider, and `petstore_web`, its consumer, which reads `Pet.status`. `contracts/petstore_api.yaml` is a proposed change to `petstore_api` that drops `status`, and the check shows that it would break `petstore_web`. `petstore_ts/` is a provider written in TypeScript with Express, whose contract the [TypeScript SDK](https://github.com/bidirekt/typescript-sdk) generates from its code. It only needs Docker.
 
 ```
 ./demo.sh
@@ -53,7 +53,9 @@ When `demo.sh` ends, `contracts/petstore_api.yaml` goes back to the proposed cha
 | `contracts/petstore_api.yaml` | the proposed change to `petstore_api`, published as `2.0.0` by `demo.sh` |
 | `bidirekt` | runs the `bidirekt` CLI in a container next to the broker |
 | `setup.sh` | creates an admin and an API key in a container next to the broker, run by `demo.sh` |
-| `compose.yaml` | Postgres, the broker, the `bidirekt` CLI image and the curl image `setup.sh` runs in |
+| `petstore_ts/` | an Express service in TypeScript whose `contracts/generated.yaml` comes from its annotated code |
+| `petstore_ts.sh` | checks `petstore_ts/contracts/generated.yaml` against the code and validates it on a broker of its own |
+| `compose.yaml` | Postgres, the broker, the `bidirekt` CLI image, the curl image `setup.sh` runs in and the `node` image `petstore_ts.sh` runs `generate` in |
 
 The walkthrough is at https://bidirekt.com/docs/start/demo.
 
@@ -65,6 +67,14 @@ CI runs `.github/workflows/e2e.yml` on every pull request and on every push to `
 ./demo.sh
 git diff --exit-code contracts/
 ```
+
+The `petstore_ts` job runs `petstore_ts.sh`, which fails when `petstore_ts/contracts/generated.yaml` differs from what `generate` writes from the code, in the `node` service, or when `bidirekt validate` rejects it. To run it locally:
+
+```
+./petstore_ts.sh
+```
+
+After changing the code, write the contract again with `docker compose run --rm node npx @bidirekt/typescript-sdk-cli generate`.
 
 ## License
 
