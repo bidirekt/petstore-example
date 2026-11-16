@@ -8,11 +8,11 @@
     "generate": "typescript-sdk generate"
   },
   "dependencies": {
-    "@bidirekt/typescript-sdk": "0.1.0-rc.1",
+    "@bidirekt/typescript-sdk": "0.1.0",
     "express": "5.3.0"
   },
   "devDependencies": {
-    "@bidirekt/typescript-sdk-cli": "0.1.0-rc.1",
+    "@bidirekt/typescript-sdk-cli": "0.1.0",
     "@types/express": "5.0.6",
     "@types/node": "24.19.2",
     "typescript": "6.0.3"
