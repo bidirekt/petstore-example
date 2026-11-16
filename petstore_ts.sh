@@ -6,7 +6,14 @@ cd "$(dirname "$0")"
 # A project of its own, so it never touches the demo's broker or another run.
 COMPOSE_PROJECT_NAME=petstore-ts-$$
 export COMPOSE_PROJECT_NAME
-trap 'docker compose down -v --remove-orphans' EXIT
+failed=0
+cleanup() {
+  if [ "$failed" != 0 ]; then
+    docker compose logs broker
+  fi
+  docker compose down -v --remove-orphans
+}
+trap 'failed=$?; cleanup' EXIT
 # dash and busybox ash skip the EXIT trap when a signal kills the shell.
 trap 'exit 1' HUP INT TERM
 
