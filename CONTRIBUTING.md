@@ -24,6 +24,13 @@ docker compose run --rm node npx @bidirekt/typescript-sdk-cli generate
 ./petstore_ts.sh
 ```
 
+The `petstore_php` job does the same for `petstore_php/`, with `generate` in the `php` service:
+
+```
+docker compose run --rm php vendor/bin/php-sdk generate
+./petstore_php.sh
+```
+
 ## Security
 
 Report a vulnerability as [SECURITY.md](SECURITY.md) describes, never in an issue.

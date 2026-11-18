@@ -2,7 +2,7 @@
 
 [![e2e](https://img.shields.io/github/actions/workflow/status/bidirekt/petstore-example/e2e.yml?branch=main&label=e2e)](https://github.com/bidirekt/petstore-example/actions/workflows/e2e.yml) [![License](https://img.shields.io/github/license/bidirekt/petstore-example)](LICENSE)
 
-A Bidirekt broker with two participants deployed to `production`: `petstore_api`, the provider, and `petstore_web`, its consumer, which reads `Pet.status`. `contracts/petstore_api.yaml` is a proposed change to `petstore_api` that drops `status`, and the check shows that it would break `petstore_web`. `petstore_ts/` is a provider written in TypeScript with Express, whose contract the [TypeScript SDK](https://github.com/bidirekt/typescript-sdk) generates from its code. It only needs Docker.
+A Bidirekt broker with two participants deployed to `production`: `petstore_api`, the provider, and `petstore_web`, its consumer, which reads `Pet.status`. `contracts/petstore_api.yaml` is a proposed change to `petstore_api` that drops `status`, and the check shows that it would break `petstore_web`. `petstore_ts/` and `petstore_php/` are the same provider, written in TypeScript with Express and in PHP with Slim, whose contracts the [TypeScript SDK](https://github.com/bidirekt/typescript-sdk) and the [PHP SDK](https://github.com/bidirekt/php-sdk) generate from their code. It only needs Docker.
 
 ```
 ./demo.sh
@@ -55,7 +55,9 @@ When `demo.sh` ends, `contracts/petstore_api.yaml` goes back to the proposed cha
 | `setup.sh` | creates an admin and an API key in a container next to the broker, run by `demo.sh` |
 | `petstore_ts/` | an Express service in TypeScript whose `contracts/generated.yaml` comes from its annotated code |
 | `petstore_ts.sh` | checks `petstore_ts/contracts/generated.yaml` against the code and validates it on a broker of its own |
-| `compose.yaml` | Postgres, the broker, the `bidirekt` CLI image, the curl image `setup.sh` runs in and the `node` image `petstore_ts.sh` runs `generate` in |
+| `petstore_php/` | a Slim service in PHP whose `contracts/generated.yaml` comes from its annotated code |
+| `petstore_php.sh` | checks `petstore_php/contracts/generated.yaml` against the code and validates it on a broker of its own |
+| `compose.yaml` | Postgres, the broker, the `bidirekt` CLI image, the curl image `setup.sh` runs in, and the `node` and `php` images `petstore_ts.sh` and `petstore_php.sh` run `generate` in |
 
 The walkthrough is at https://bidirekt.com/docs/start/demo.
 
@@ -75,6 +77,14 @@ The `petstore_ts` job runs `petstore_ts.sh`, which fails when `petstore_ts/contr
 ```
 
 After changing the code, write the contract again with `docker compose run --rm node npx @bidirekt/typescript-sdk-cli generate`.
+
+The `petstore_php` job runs `petstore_php.sh`, which does the same for `petstore_php/`, with `generate` in the `php` service. To run it locally:
+
+```
+./petstore_php.sh
+```
+
+After changing the code, write the contract again with `docker compose run --rm php vendor/bin/php-sdk generate`.
 
 ## License
 
