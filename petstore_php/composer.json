@@ -1,0 +1,22 @@
+{
+    "name": "bidirekt/petstore-php",
+    "description": "A Slim provider whose Bidirekt contract the PHP SDK generates from its code",
+    "type": "project",
+    "license": "Apache-2.0",
+    "require": {
+        "php": "^8.1",
+        "slim/psr7": "^1.8",
+        "slim/slim": "^4.15"
+    },
+    "require-dev": {
+        "bidirekt/php-sdk": "0.1.0-rc.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Petstore\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
