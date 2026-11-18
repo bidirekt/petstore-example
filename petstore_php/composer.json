@@ -9,7 +9,7 @@
         "slim/slim": "^4.15"
     },
     "require-dev": {
-        "bidirekt/php-sdk": "0.1.0-rc.1"
+        "bidirekt/php-sdk": "0.1.0"
     },
     "autoload": {
         "psr-4": {

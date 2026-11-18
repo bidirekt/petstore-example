@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1af3aed351de6ff467958ed6504e516d",
+    "content-hash": "94b4ffd40116f27b1673142ba140b472",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -690,7 +690,7 @@
     "packages-dev": [
         {
             "name": "bidirekt/php-sdk",
-            "version": "v0.1.0-rc.1",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bidirekt/php-sdk.git",
@@ -729,10 +729,10 @@
             "description": "Generate a service's Bidirekt contract from PHP attributes or docblock tags",
             "support": {
                 "issues": "https://github.com/bidirekt/php-sdk/issues",
-                "source": "https://github.com/bidirekt/php-sdk/tree/v0.1.0-rc.1"
+                "source": "https://github.com/bidirekt/php-sdk/tree/v0.1.0"
             },
             "time": "2026-11-18T00:55:32+00:00",
-            "published-time": "2026-11-18T01:56:34+00:00"
+            "published-time": "2026-11-18T02:20:39+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -843,9 +843,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "bidirekt/php-sdk": 5
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
