@@ -1,7 +1,7 @@
-github.com/bidirekt/go-sdk v0.1.0-rc.1 h1:iEL7KyoT/cdCBBPWtp5aPoz47HVhkqgMgBiygzY549E=
-github.com/bidirekt/go-sdk v0.1.0-rc.1/go.mod h1:qlejoHrcTFm9BzKDuWNg1yzROc4iffqRvQKiIcXgKoo=
-github.com/bidirekt/go-sdk/cmd/go-sdk v0.1.0-rc.1 h1:9cS8wSkczMOFbWPlBojS7PvjfzoFie53HNKwBGFND1k=
-github.com/bidirekt/go-sdk/cmd/go-sdk v0.1.0-rc.1/go.mod h1:t1Q8Gfjex9qQbyUulbt/Y/woYETvru5vdU747ZWZoOM=
+github.com/bidirekt/go-sdk v0.1.0 h1:wZ0LCtMPmSUUPzMiUk9tMo34/s7xiyC/g1bgCmy1rwM=
+github.com/bidirekt/go-sdk v0.1.0/go.mod h1:qlejoHrcTFm9BzKDuWNg1yzROc4iffqRvQKiIcXgKoo=
+github.com/bidirekt/go-sdk/cmd/go-sdk v0.1.0 h1:QyNDflFxKEBa9gYhr+vBiPamcErbCYw09MpDKti2UrI=
+github.com/bidirekt/go-sdk/cmd/go-sdk v0.1.0/go.mod h1:t1Q8Gfjex9qQbyUulbt/Y/woYETvru5vdU747ZWZoOM=
 github.com/google/go-cmp v0.6.0 h1:ofyhxvXcZhMsU5ulbFiLKl/XBFqE1GSq7atu8tAmTRI=
 github.com/google/go-cmp v0.6.0/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=
 golang.org/x/mod v0.43.0 h1:MFuq5J6s35W9D3IjkwyWc9vHh0nENOrt5K8Iof4ofmg=
