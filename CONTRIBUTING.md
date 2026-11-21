@@ -31,6 +31,13 @@ docker compose run --rm php vendor/bin/php-sdk generate
 ./petstore_php.sh
 ```
 
+The `petstore_go` job does the same for `petstore_go/`, with `generate` in the `go` service:
+
+```
+docker compose run --rm go go tool go-sdk generate
+./petstore_go.sh
+```
+
 ## Security
 
 Report a vulnerability as [SECURITY.md](SECURITY.md) describes, never in an issue.

@@ -74,5 +74,15 @@ services:
       # The container's own vendor, so it never replaces one installed on the machine.
       - /petstore_php/vendor
 
+  go:
+    # golang:1.27.4-trixie
+    image: golang@sha256:f18c3d73a184fb0582828510722e723b63a93f7188d11dd223d9be6f6880e65d
+    profiles: [go]
+    working_dir: /petstore_go
+    volumes:
+      - ./petstore_go:/petstore_go
+      - go-modules:/go/pkg/mod
+
 volumes:
   postgres-data:
+  go-modules:
