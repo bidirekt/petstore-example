@@ -2,7 +2,7 @@
 
 [![e2e](https://img.shields.io/github/actions/workflow/status/bidirekt/petstore-example/e2e.yml?branch=main&label=e2e)](https://github.com/bidirekt/petstore-example/actions/workflows/e2e.yml) [![License](https://img.shields.io/github/license/bidirekt/petstore-example)](LICENSE)
 
-A Bidirekt broker with two participants deployed to `production`: `petstore_api`, the provider, and `petstore_web`, its consumer, which reads `Pet.status`. `contracts/petstore_api.yaml` is a proposed change to `petstore_api` that drops `status`, and the check shows that it would break `petstore_web`. `petstore_ts/` and `petstore_php/` are the same provider, written in TypeScript with Express and in PHP with Slim, whose contracts the [TypeScript SDK](https://github.com/bidirekt/typescript-sdk) and the [PHP SDK](https://github.com/bidirekt/php-sdk) generate from their code. It only needs Docker.
+A Bidirekt broker with two participants deployed to `production`: `petstore_api`, the provider, and `petstore_web`, its consumer, which reads `Pet.status`. `contracts/petstore_api.yaml` is a proposed change to `petstore_api` that drops `status`, and the check shows that it would break `petstore_web`. `petstore_ts/`, `petstore_php/` and `petstore_go/` are the same provider, written in TypeScript with Express, in PHP with Slim and in Go with `net/http`, whose contracts the [TypeScript SDK](https://github.com/bidirekt/typescript-sdk), the [PHP SDK](https://github.com/bidirekt/php-sdk) and the [Go SDK](https://github.com/bidirekt/go-sdk) generate from their code. It only needs Docker.
 
 ```
 ./demo.sh
@@ -57,7 +57,9 @@ When `demo.sh` ends, `contracts/petstore_api.yaml` goes back to the proposed cha
 | `petstore_ts.sh` | checks `petstore_ts/contracts/generated.yaml` against the code and validates it on a broker of its own |
 | `petstore_php/` | a Slim service in PHP whose `contracts/generated.yaml` comes from its annotated code |
 | `petstore_php.sh` | checks `petstore_php/contracts/generated.yaml` against the code and validates it on a broker of its own |
-| `compose.yaml` | Postgres, the broker, the `bidirekt` CLI image, the curl image `setup.sh` runs in, and the `node` and `php` images `petstore_ts.sh` and `petstore_php.sh` run `generate` in |
+| `petstore_go/` | a `net/http` service in Go whose `contracts/generated.yaml` comes from its declarations and struct tags |
+| `petstore_go.sh` | checks `petstore_go/contracts/generated.yaml` against the code and validates it on a broker of its own |
+| `compose.yaml` | Postgres, the broker, the `bidirekt` CLI image, the curl image `setup.sh` runs in, and the `node`, `php` and `go` images `petstore_ts.sh`, `petstore_php.sh` and `petstore_go.sh` run `generate` in |
 
 The walkthrough is at https://bidirekt.com/docs/start/demo.
 
@@ -85,6 +87,14 @@ The `petstore_php` job runs `petstore_php.sh`, which does the same for `petstore
 ```
 
 After changing the code, write the contract again with `docker compose run --rm php vendor/bin/php-sdk generate`.
+
+The `petstore_go` job runs `petstore_go.sh`, which does the same for `petstore_go/`, with `generate` in the `go` service. To run it locally:
+
+```
+./petstore_go.sh
+```
+
+After changing the code, write the contract again with `docker compose run --rm go go tool go-sdk generate`.
 
 ## License
 
