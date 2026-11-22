@@ -51,38 +51,5 @@ services:
       broker:
         condition: service_healthy
 
-  node:
-    image: node:24-alpine
-    profiles: [node]
-    working_dir: /petstore_ts
-    environment:
-      NPM_CONFIG_UPDATE_NOTIFIER: "false"
-    entrypoint: [sh, -c, 'npm ci --no-audit --no-fund >&2 && exec "$$@"', --]
-    volumes:
-      - ./petstore_ts:/petstore_ts
-      # The container's own node_modules, so it never replaces one installed on the machine.
-      - /petstore_ts/node_modules
-
-  php:
-    # composer:2.11.2
-    image: composer@sha256:0c8e663f14c94d07b3c45b175c51f5a14718508f21fe4dd7e54f09488dd0ed71
-    profiles: [php]
-    working_dir: /petstore_php
-    entrypoint: [sh, -c, 'composer install --no-interaction --no-progress >&2 && exec "$$@"', --]
-    volumes:
-      - ./petstore_php:/petstore_php
-      # The container's own vendor, so it never replaces one installed on the machine.
-      - /petstore_php/vendor
-
-  go:
-    # golang:1.27.4-trixie
-    image: golang@sha256:f18c3d73a184fb0582828510722e723b63a93f7188d11dd223d9be6f6880e65d
-    profiles: [go]
-    working_dir: /petstore_go
-    volumes:
-      - ./petstore_go:/petstore_go
-      - go-modules:/go/pkg/mod
-
 volumes:
   postgres-data:
-  go-modules:
