@@ -16,7 +16,7 @@ services:
       retries: 15
 
   broker:
-    image: ghcr.io/bidirekt/broker:0.2.1
+    image: ghcr.io/bidirekt/broker:0.3.0
     environment:
       BIDIREKT_DATABASE_URL: postgres://bidirekt:bidirekt@postgres:5432/bidirekt?sslmode=disable
       BIDIREKT_PUBLIC_URL: http://localhost:8080
@@ -39,7 +39,7 @@ services:
       - ./setup.sh:/setup.sh:ro
 
   cli:
-    image: ghcr.io/bidirekt/cli:0.2.1
+    image: ghcr.io/bidirekt/cli:0.3.0
     profiles: [cli]
     working_dir: /example
     environment:
